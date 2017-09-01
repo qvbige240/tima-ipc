@@ -1,0 +1,3 @@
+AUTOMAKE_OPTIONS=foreign
+#SUBDIRS=main
+SUBDIRS=ti sample
