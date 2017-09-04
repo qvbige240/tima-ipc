@@ -30,8 +30,10 @@ $(STATIC_LIBS)
 #$(project_dir)/premake/x86/install/lib/libnanomsg.so
 #$(STATIC_LIBS)
 librpc_la_SOURCES=\
-tima_rpc.c \
-tima_rpcd.h \
 tima_typedef.h \
+tima_rpc.h \
+tima_rpcd.h \
 tima_rpcd.c \
-tima_rpc.h
+tima_rpc.c \
+tima_eventq.h \
+tima_eventq.c
