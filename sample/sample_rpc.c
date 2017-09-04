@@ -6,8 +6,8 @@
  */
 #include <unistd.h>
 
-#include "tima_proc_rpc.h"
-#include "tima_proc_rpcd.h"
+#include "tima_rpc.h"
+#include "tima_rpcd.h"
 
 int server(void)
 {
