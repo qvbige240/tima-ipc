@@ -85,7 +85,7 @@ if test x$enable_x86 = xyes; then
 	#DYNAMIC_LIBS="-lnanomsg -lpthread"
 	AC_SUBST(DYNAMIC_LIBS)
 	CFLAGS='-Wall $(GOLBAL_CFLAGS) -I$(project_dir)/../premake/x86/install/include/ -I$(project_dir)/ti'
-	EXTRA_LDFLAGS='$(GOLBAL_LDFLAGS)'
+	EXTRA_LDFLAGS='$(GOLBAL_LDFLAGS) -L$(project_dir)/ti/.libs'
 	#EXTRA_LDFLAGS='$(project_dir)/../premake/x86/install/lib/'
 	AC_SUBST(EXTRA_LDFLAGS)
 else

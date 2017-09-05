@@ -13,7 +13,7 @@
 
 #define BUFFER_SIZE		EVENT_QUEUE_MSG_LEN_MAX
 
-int test_event_post(const char* name)
+void *test_event_post(void *name)
 {
 	int ret = 0;
 	char buffer[BUFFER_SIZE] = {0};
@@ -23,15 +23,13 @@ int test_event_post(const char* name)
 	int key = tima_mqueue_open("/tmp/test", 'a');
 
 	//snprintf(buffer, sizeof(buffer), "1001");
-	snprintf(buffer, sizeof(buffer), "%s %s", name, "1001");
+	snprintf(buffer, sizeof(buffer), "%s %s", (char*)name, "1001");
 
 	while (1) {
 		ret = tima_mqueue_post(key, buffer);
-		printf("[%s]post: %s, ret = %d\n", name, buffer, ret);
+		printf("[%s]post: %s, ret = %d\n", (char*)name, buffer, ret);
 		sleep(2);
 	}
-
-	return 0;
 }
 
 int test_event_recv(void)
@@ -60,14 +58,16 @@ int mult_post(int argc, char *argv[])
 
 	//eventq = vpk_eventq_open();
 
-	ret = pthread_create(&pth_test3, NULL, test_event_post, (void*)"test3");
+	char *test3 = "test3";
+	ret = pthread_create(&pth_test3, NULL, test_event_post, (void*)test3);
 	if (ret != 0)
 		printf("create thread \'vpk_test3\' failed");
 		//LOG_E("create thread \'vpk_test3\' failed");
 
 	sleep(1);
 
-	ret = pthread_create(&pth_test2, NULL, test_event_post, (void*)"test2");
+	char *test2 = "test2";
+	ret = pthread_create(&pth_test2, NULL, test_event_post, (void*)test2);
 	if (ret != 0)
 		printf("create thread \'vpk_test2\' failed");
 
