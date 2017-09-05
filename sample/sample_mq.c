@@ -11,7 +11,8 @@
 
 #include "tima_eventq.h"
 
-#define BUFFER_SIZE		EVENT_QUEUE_MSG_LEN_MAX
+#define BUFFER_SIZE			EVENT_QUEUE_MSG_LEN_MAX
+#define EVENT_MQ_PATH		"/tmp/tima.ipc"
 
 void *test_event_post(void *name)
 {
@@ -20,7 +21,7 @@ void *test_event_post(void *name)
 	//eventq = vpk_eventq_open("/test", "a+");
 	//return_val_if_fail(eventq != NULL, -1);
 
-	int key = tima_mqueue_open("/tmp/test", 'a');
+	int key = tima_mqueue_open(EVENT_MQ_PATH, 'a');
 
 	//snprintf(buffer, sizeof(buffer), "1001");
 	snprintf(buffer, sizeof(buffer), "%s %s", (char*)name, "1001");
@@ -37,7 +38,7 @@ int test_event_recv(void)
 	int ret = 0;
 	char buffer[BUFFER_SIZE] = {0};
 
-	int key = tima_mqueue_open("/tmp/test", 'a');
+	int key = tima_mqueue_open(EVENT_MQ_PATH, 'a');
 
 	while (1) {
 		ret = tima_mqueue_recv(key, buffer);
@@ -84,6 +85,22 @@ int main(int argc, char **argv)
 		fprintf (stderr, "Usage: %s [-s|name]\n", argv[0]);
 		exit (EXIT_FAILURE);
 	}
+
+#if 0
+	if (!vpk_exists(EVENT_MQ_PATH)) {
+		int ret = 0;
+		char tmp[256] = {0};
+		vpk_pathname_get(EVENT_MQ_PATH, tmp);
+		TIMA_LOGI("full: %s, pathname: %s", EVENT_MQ_PATH, tmp);
+		ret = vpk_mkdir_mult(EVENT_MQ_PATH);
+		TIMA_LOGI("vpk_mkdir_mult \'%s\' ret = %d\n", EVENT_MQ_PATH, ret);
+		if (vpk_create_file(EVENT_MQ_PATH) < 0) {
+			TIMA_LOGE("create ipc file error!");
+			return -1;
+		}
+	}
+#endif
+
 	if (strcmp(argv[1], "-s") == 0) {
 		rc = mult_post(argc, argv);
 	} else {

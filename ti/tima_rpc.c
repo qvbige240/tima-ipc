@@ -31,7 +31,12 @@ int tima_rpc_open(void)
 	return fd;
 }
 
-int tima_rpc_recv(int fd, void *buf, int flags)
+int tima_rpc_freemsg(void *msg)
+{
+	return nn_freemsg(msg);
+}
+
+int tima_rpc_recv_alloc(int fd, void *buf, int flags)
 {
 	int rc;
 
@@ -41,6 +46,23 @@ int tima_rpc_recv(int fd, void *buf, int flags)
 	}
 
 	if ((rc = nn_recv(fd, buf, NN_MSG, flags)) < 0) {
+		fprintf(stderr, "rpc recv: %s\n", nn_strerror (nn_errno ()));
+		return -1;
+	}
+
+	return rc;
+}
+
+int tima_rpc_recv(int fd, void *buf, size_t len, int flags)
+{
+	int rc;
+
+	if (buf == NULL) {
+		fprintf(stderr, "recv buf is null pointer\n");
+		return -1;
+	}
+
+	if ((rc = nn_recv(fd, buf, len, flags)) < 0) {
 		fprintf(stderr, "rpc recv: %s\n", nn_strerror (nn_errno ()));
 		return -1;
 	}

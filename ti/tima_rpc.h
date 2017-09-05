@@ -18,8 +18,10 @@ TIMA_EXTERN_BEGIN
 //TIMAPI int vpk_system_init(int argc, char* argv[]);
 
 TIMAPI int tima_rpc_open(void);
-TIMAPI int tima_rpc_recv(int fd, void *buf, int flags);
+TIMAPI int tima_rpc_recv(int fd, void *buf, size_t len, int flags);
+TIMAPI int tima_rpc_recv_alloc(int fd, void *buf, int flags);
 TIMAPI int tima_rpc_send(int fd, const void *buf, size_t len, int flags);
+TIMAPI int tima_rpc_freemsg(void *msg);
 TIMAPI int tima_rpc_close(int fd);
 
 TIMA_EXTERN_END
