@@ -97,17 +97,19 @@ else
 	GOLBAL_LDFLAGS="-L${GBASE_LIB}"
 	AC_SUBST(GOLBAL_CFLAGS)
 
-    LIB_PATH='$(project_dir)/mips/lib'
+    LIB_PATH='$(project_dir)/../premake/nt966x/install/lib'
+	NANOMSG_LIB='$(project_dir)/../premake/nt966x/install/lib/libnanomsg.a'
 	
-	JANSSON_LIB='$(project_dir)/mips/lib/libjansson.a'
+	#JANSSON_LIB='$(project_dir)/mips/lib/libjansson.a'
 	#CURL_LIB='$(project_dir)/mips/lib/libcurl.a'
+    JANSSON_LIB=''
 	CURL_LIB=''
 	#SQLITE3_LIB='$(project_dir)/mips/lib/libsqlite3.a'
     #AC_SUBST(SQLITE3_LIB)
 	#AC_SUBST(JANSSON_LIB)
     #AC_SUBST(CURL_LIB)
     
-	STATIC_LIBS="$STATIC_LIBS $JANSSON_LIB $CURL_LIB"
+    STATIC_LIBS="$STATIC_LIBS $NANOMSG_LIB"
 
     if test X"$SQLITE3_LIB" != X; then
         STATIC_LIBS="$STATIC_LIBS $LIB_PATH/$SQLITE3_LIB"
@@ -120,12 +122,14 @@ else
     echo "STATIC_LIBS: $STATIC_LIBS"
 	AC_SUBST(STATIC_LIBS)
 
-	DYNAMIC_LIBS="-lcrypto -lcurl -lssl -lnvtuctrl -ldl -lpthread -lrt -lm"
+	#DYNAMIC_LIBS="-lcrypto -lcurl -lssl -lnvtuctrl -ldl -lpthread -lrt -lm"
+	DYNAMIC_LIBS="-ldl -lpthread -lrt"
 	#DYNAMIC_LIBS="-lnvtuctrl -lpthread -lrt -lm"
 	AC_SUBST(DYNAMIC_LIBS)
-	EXTRA_LDFLAGS='-L$(project_dir)/mips/lib'
+	#EXTRA_LDFLAGS='-L$(project_dir)/mips/lib'
+	EXTRA_LDFLAGS='$(GOLBAL_LDFLAGS) -L$(project_dir)/ti/.libs'
 	AC_SUBST(EXTRA_LDFLAGS)
-	CFLAGS='-Wall $(GOLBAL_CFLAGS) -I$(project_dir)/mips/include -I$(project_dir)/vpk/inc -I$(project_dir)/vpk/src'
+	CFLAGS='-Wall $(GOLBAL_CFLAGS) -I$(project_dir)/../premake/nt966x/install/include -I$(project_dir)/ti/inc -I$(project_dir)/ti'
 fi
 echo "platform: $PLATFORMS"
 echo "platform11111: ${PLATFORMS}"

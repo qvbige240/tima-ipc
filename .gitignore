@@ -11,6 +11,9 @@
 *.db
 *.log
 build_*
+final
+sample/mqueue
+sample/rpc
 
 .*
 *.o
