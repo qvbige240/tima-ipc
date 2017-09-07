@@ -19,16 +19,15 @@ $(STATIC_LIBS)
 #$(project_dir)/premake/x86/install/lib/libnanomsg.so
 #$(STATIC_LIBS)
 libtmipc_la_SOURCES=\
-tima_typedef.h \
-tima_rpc.h \
-tima_rpcd.h \
-tima_rpcd.c \
-tima_rpc.c \
+tima_eventq.c \
 tima_eventq.h \
-tima_eventq.c
-include_HEADERS =\
-tima_typedef.h \
-tima_rpc.h \
+tima_pub.c \
+tima_pub.h \
+tima_rpc.c \
+tima_rpcd.c \
 tima_rpcd.h \
-tima_eventq.h
+tima_rpc.h \
+tima_sub.c \
+tima_sub.h \
+tima_typedef.h
 

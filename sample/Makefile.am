@@ -19,3 +19,9 @@ LIBS="-ltmipc $(DYNAMIC_LIBS)"
 mqueue_LDFLAGS=$(EXTRA_LDFLAGS)
 mqueue_SOURCES =\
 sample_mq.c
+
+bin_PROGRAMS += pubsub
+LIBS="-ltmipc $(DYNAMIC_LIBS)"
+pubsub_LDFLAGS=$(EXTRA_LDFLAGS)
+pubsub_SOURCES =\
+sample_pubsub.c

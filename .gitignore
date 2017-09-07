@@ -14,6 +14,9 @@ build_*
 final
 sample/mqueue
 sample/rpc
+sample/pubsub
+nt966x
+x86
 
 .*
 *.o
