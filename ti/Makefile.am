@@ -30,4 +30,10 @@ tima_rpc.h \
 tima_sub.c \
 tima_sub.h \
 tima_typedef.h
-
+include_HEADERS =\
+tima_typedef.h \
+tima_rpc.h \
+tima_rpcd.h \
+tima_pub.h \
+tima_sub.h \
+tima_eventq.h
