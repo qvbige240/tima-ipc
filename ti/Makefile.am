@@ -8,17 +8,17 @@ AUTOMAKE_OPTIONS=foreign
 #tima_typedef.h \
 #tima_proc_rpcd.c \
 #tima_proc_rpc.h
-lib_LTLIBRARIES = libtmipc.la
+lib_LTLIBRARIES = libtimapi.la
 LIBS=$(DYNAMIC_LIBS)
-libtmipc_la_LDFLAGS = -fPIC $(EXTRA_LDFLAGS)
-#libtmipc_la_LDFLAGS = $(EXTRA_LDFLAGS)
-libtmipc_la_LIBADD =\
+libtimapi_la_LDFLAGS = -fPIC $(EXTRA_LDFLAGS)
+#libtimapi_la_LDFLAGS = $(EXTRA_LDFLAGS)
+libtimapi_la_LIBADD =\
 $(STATIC_LIBS)
 #$(project_dir)/premake/x86/install/lib/libnanomsg.so
 #$(project_dir)/premake/x86/install/lib/libnanomsg.a
 #$(project_dir)/premake/x86/install/lib/libnanomsg.so
 #$(STATIC_LIBS)
-libtmipc_la_SOURCES=\
+libtimapi_la_SOURCES=\
 tima_eventq.c \
 tima_eventq.h \
 tima_pub.c \
