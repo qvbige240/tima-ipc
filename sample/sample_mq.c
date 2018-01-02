@@ -14,6 +14,8 @@
 #define BUFFER_SIZE			EVENT_QUEUE_MSG_LEN_MAX
 #define EVENT_MQ_PATH		"/tmp/tima.ipc"
 
+const char *str = "{\"type\": 0x3001, \"rcode\":\"0\", \"data\":\"/xxx/Photo/121945_005A.JPG,/xxx/Photo/121947_006B.JPG\"}";
+
 void *test_event_post(void *name)
 {
 	int ret = 0;
@@ -24,7 +26,10 @@ void *test_event_post(void *name)
 	int key = tima_mqueue_open(EVENT_MQ_PATH, 'a');
 
 	//snprintf(buffer, sizeof(buffer), "1001");
-	snprintf(buffer, sizeof(buffer), "%s %s", (char*)name, "1001");
+	//snprintf(buffer, sizeof(buffer), "%s %s", (char*)name, "1001");
+	
+	//strcpy(buffer, "1001");
+	strcpy(buffer, str);
 
 	while (1) {
 		ret = tima_mqueue_post(key, buffer);

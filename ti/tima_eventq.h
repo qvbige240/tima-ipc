@@ -12,7 +12,8 @@
 TIMA_EXTERN_BEGIN
 
 /* Maximum number of bytes that can be written in a single message */
-#define EVENT_QUEUE_MSG_LEN_MAX		16
+//#define EVENT_QUEUE_MSG_LEN_MAX		16
+#define EVENT_QUEUE_MSG_LEN_MAX		256
 
 /**
  * Create and open a event message queue.

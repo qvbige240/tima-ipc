@@ -9,25 +9,32 @@
 #include "tima_rpc.h"
 #include "tima_rpcd.h"
 
+
 int server(void)
 {
-	int fd = tima_rpcd_open();
-
 	int rc;
 	char recvbuf[256];
+
+	int fd = tima_rpcd_open();
+	if (fd < 0) {
+		printf("error\n");
+		return -1;
+	}
+
+	char *str = "{\"Latitude\":0.000000,\"Longitude\":0.000000,\"Speed\":0.000000,\"Timestamp\":0}";
 	while (1) {
 		memset(recvbuf, 0, sizeof(recvbuf));
 		rc = tima_rpcd_recv(fd, recvbuf, sizeof(recvbuf), 0);
 		if (rc < 0)
 			printf(" tima_rpcd_recv error");
 		printf("recv: %s\n", recvbuf);
-
+		// recv: tima -gpsinfo
 		sleep(3);
 
-		sprintf(recvbuf, "%s %s", recvbuf, " back from server");
+		//sprintf(recvbuf, "%s %s", recvbuf, " back from server");
 		//printf("Enter message to send: \n");
 		//scanf("%s", recvbuf);
-		rc = tima_rpcd_send(fd, recvbuf, strlen(recvbuf), 0);
+		rc = tima_rpcd_send(fd, str, strlen(str), 0);
 	}
 
 	tima_rpcd_close(fd);
@@ -109,12 +116,15 @@ int client(void)
 
 	char recv[256] = {0};
 	char buffer[256] = {0};
+	//const char *str = "{\"type\": 0x3001, \"rcode\":\"0\", \"data\":\"/xxx/Photo/121945_005A.JPG,/xxx/Photo/121947_006B.JPG\"}";
+	const char *str = "tima -getvideo 1234567 5 ";
 	while (1) {
 		memset(buffer, 0, sizeof(buffer));
 		printf("Enter message to send: \n");
 		scanf("%s", buffer);
 		memset(buffer, 0, sizeof(buffer));
-		strcpy(buffer, "hello world");
+		//strcpy(buffer, "hello world");
+		strcpy(buffer, str);
 
 		//rc = tima_rpc_send(fd, buffer, strlen(buffer), 0);
 		//if (rc < 0)
