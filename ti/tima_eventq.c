@@ -19,11 +19,36 @@ typedef struct ipc_msg
 	char msg_value[EVENT_QUEUE_MSG_LEN_MAX];
 } ipc_msg_t;
 
+#define EVENT_MQ_PATH		"/tmp/tima.ipc"
+
+static int tima_create_node(char* fname)
+{
+	int ret = -1;
+	return_val_if_fail(fname, -1);
+
+	if (access(fname, 0) != 0) {
+		if (creat(fname, 0755) < 0) {
+			printf("creat \'%s\' error\n", fname);
+			return -1;
+		}
+		if (access(fname, 0) != 0) {
+			printf("creat \'%s\' failed\n", fname);
+			return -1;
+		}
+	}
+	return 0;
+}
+
+#if 0
 int tima_mqueue_open(char* fname, int id)
 {
 	int qid;
 	key_t key;
 
+	if (tima_create_node(fname) != 0) {
+		printf("ipc node is not exist.");
+		return -1;
+	}
 	//if ((key = ftok(".", 'a')) == -1)
 	if ((key = ftok(fname, id)) == -1)
 	{
@@ -43,10 +68,40 @@ int tima_mqueue_open(char* fname, int id)
 
 	return qid;
 }
+#else
+int tima_mqueue_open(void)
+{
+	int qid;
+	key_t key;
+	char id = 'a';
+	char *fname = EVENT_MQ_PATH;
+
+	if (tima_create_node(fname) != 0) {
+		printf("msg queen node is not exist.");
+		return -1;
+	}
+
+	//if ((key = ftok(".", 'a')) == -1)
+	if ((key = ftok(fname, id)) == -1)
+	{
+		fprintf(stderr, "ftok error: %s!\n", strerror(errno));
+		return -1;
+	}
+
+	if ((qid = msgget(key, IPC_CREAT|0666)) == -1)
+	{
+		fprintf(stderr, "msgget error: %s!\n", strerror(errno));
+		return -1;
+	}
+
+	printf("queue %d opened\n", qid);
+
+	return qid;
+}
+#endif
 
 int tima_mqueue_is_empty(int qid)
 {
-	//int ret = 0;
 	struct msqid_ds buf;
 
 	if ((msgctl(qid, IPC_STAT, &buf)) != 0)
@@ -81,7 +136,8 @@ int tima_mqueue_post(int qid, void* msg_value)
 		return -1;
 	}
 
-	return 0;
+	//return 0;
+	return strlen(message.msg_value);
 }
 
 int tima_mqueue_recv(int qid, void* msg_value)
@@ -96,5 +152,6 @@ int tima_mqueue_recv(int qid, void* msg_value)
 	}
 	memcpy(msg_value, (void*)&message.msg_value, EVENT_QUEUE_MSG_LEN_MAX);
 
-	return 0;
+	//return 0;
+	return strlen(message.msg_value);
 }

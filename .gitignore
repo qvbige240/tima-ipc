@@ -15,6 +15,7 @@ final
 sample/mqueue
 sample/rpc
 sample/pubsub
+sample/cmd
 nt966x
 x86
 

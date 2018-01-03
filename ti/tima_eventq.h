@@ -13,8 +13,9 @@ TIMA_EXTERN_BEGIN
 
 /* Maximum number of bytes that can be written in a single message */
 //#define EVENT_QUEUE_MSG_LEN_MAX		16
-#define EVENT_QUEUE_MSG_LEN_MAX		256
+#define EVENT_QUEUE_MSG_LEN_MAX		512
 
+#if 0
 /**
  * Create and open a event message queue.
  *
@@ -24,6 +25,15 @@ TIMA_EXTERN_BEGIN
  * @return The event message queue identifier associated with the value of the fname and id arguments.
  */
 TIMAPI int tima_mqueue_open(char* fname, int id);
+#else
+
+/**
+ * Create and open a event message queue.
+ *
+ * @return The event message queue identifier.
+ */
+TIMAPI int tima_mqueue_open(void);
+#endif
 
 /**
  * The current number of messages in queue is empty.

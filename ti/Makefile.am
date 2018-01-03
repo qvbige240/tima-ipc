@@ -24,8 +24,8 @@ tima_eventq.h \
 tima_pub.c \
 tima_pub.h \
 tima_rpc.c \
-tima_rpcd.c \
-tima_rpcd.h \
+tima_command.c \
+tima_command.h \
 tima_rpc.h \
 tima_sub.c \
 tima_sub.h \

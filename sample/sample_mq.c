@@ -12,9 +12,9 @@
 #include "tima_eventq.h"
 
 #define BUFFER_SIZE			EVENT_QUEUE_MSG_LEN_MAX
-#define EVENT_MQ_PATH		"/tmp/tima.ipc"
 
-const char *str = "{\"type\": 0x3001, \"rcode\":\"0\", \"data\":\"/xxx/Photo/121945_005A.JPG,/xxx/Photo/121947_006B.JPG\"}";
+const char *str = "{\"event\":\"5001\",\"msg\":{\"id\":0,\"key\":\"5001\",\"rcode\":0,\"value\":\"[{\"camera\":0,\"type\":1,\"file\":\"/xxx/01.mp4\"},{\"camera\":1,\"type\":1,\"file\":\"/xxx/02.mp4\"}]\"}}";
+//const char *str = "{\"event\":\"5001\",\"msg\":{\"id\":0,\"key\":\"5001\",\"rcode\":0,\"value\":\"[{\"camera\":0,\"type\":1,\"file\":\"/xxx/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/01.mp4\"},{\"camera\":1,\"type\":1,\"file\":\"/xxx/02.mp4\"}]\"}}";
 
 void *test_event_post(void *name)
 {
@@ -23,18 +23,16 @@ void *test_event_post(void *name)
 	//eventq = vpk_eventq_open("/test", "a+");
 	//return_val_if_fail(eventq != NULL, -1);
 
-	int key = tima_mqueue_open(EVENT_MQ_PATH, 'a');
-
-	//snprintf(buffer, sizeof(buffer), "1001");
-	//snprintf(buffer, sizeof(buffer), "%s %s", (char*)name, "1001");
+	//int key = tima_mqueue_open(EVENT_MQ_PATH, 'a');
+	int key = tima_mqueue_open();
 	
-	//strcpy(buffer, "1001");
-	strcpy(buffer, str);
+	printf("str len = %d", strlen(str));
+	strncpy(buffer, str, BUFFER_SIZE);
 
 	while (1) {
 		ret = tima_mqueue_post(key, buffer);
 		printf("[%s]post: %s, ret = %d\n", (char*)name, buffer, ret);
-		sleep(2);
+		sleep(3);
 	}
 }
 
@@ -43,7 +41,8 @@ int test_event_recv(void)
 	int ret = 0;
 	char buffer[BUFFER_SIZE] = {0};
 
-	int key = tima_mqueue_open(EVENT_MQ_PATH, 'a');
+	//int key = tima_mqueue_open(EVENT_MQ_PATH, 'a');
+	int key = tima_mqueue_open();
 
 	while (1) {
 		ret = tima_mqueue_recv(key, buffer);

@@ -1,9 +1,9 @@
 AUTOMAKE_OPTIONS=foreign
-bin_PROGRAMS = rpc
+bin_PROGRAMS = cmd 
 LIBS="-ltimapi $(DYNAMIC_LIBS)"
-rpc_LDFLAGS=$(EXTRA_LDFLAGS)
-rpc_SOURCES =\
-sample_rpc.c
+cmd_LDFLAGS=$(EXTRA_LDFLAGS)
+cmd_SOURCES =\
+sample_cmd.c
 
 #bin_PROGRAMS += mqueue
 #mqueue_LDADD =\
