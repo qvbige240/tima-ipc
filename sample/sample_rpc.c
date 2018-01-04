@@ -29,7 +29,7 @@ int server(void)
 			printf(" tima_rpcd_recv error");
 		printf("recv: %s\n", recvbuf);
 		// recv: tima -gpsinfo
-		sleep(3);
+		//sleep(3);
 
 		//sprintf(recvbuf, "%s %s", recvbuf, " back from server");
 		//printf("Enter message to send: \n");

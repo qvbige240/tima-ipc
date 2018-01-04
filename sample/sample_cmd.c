@@ -5,6 +5,7 @@
  *
  */
 #include <unistd.h>
+#include <pthread.h>
 
 #include "tima_rpc.h"
 #include "tima_command.h"
@@ -106,7 +107,7 @@ int tima_cmd_send(int fd, const void *buf, char *recvbuf, size_t recvlen)
 	return rc;
 }
 
-int client(void)
+void *test_client1(void *name)
 {
 	int rc;
 	int fd = tima_rpc_open();
@@ -117,7 +118,7 @@ int client(void)
 	const char *str = "tima -getvideo 1234567 5 ";
 	while (1) {
 		memset(buffer, 0, sizeof(buffer));
-		printf("Enter message to send: \n");
+		printf("[%s]Enter message to send: \n", (char*)name);
 		scanf("%s", buffer);
 		memset(buffer, 0, sizeof(buffer));
 		//strcpy(buffer, "hello world");
@@ -128,10 +129,56 @@ int client(void)
 	}
 
 	tima_rpc_close(fd);
-	return 0;
+	return NULL;
 }
 
+void *test_client2(void *name)
+{
+	int rc;
+	int fd = tima_rpc_open();
+
+	char recv[256] = {0};
+	char buffer[256] = {0};
+	const char *str2 = "tima -gpsinfo";
+	while (1) {
+		memset(buffer, 0, sizeof(buffer));
+		printf("[%s]Enter message to send: \n", (char*)name);
+		scanf("%s", buffer);
+		memset(buffer, 0, sizeof(buffer));
+		strcpy(buffer, str2);
+
+		rc = tima_cmd_send(fd, buffer, recv, sizeof(recv));
+		printf("rc = %d, recv: %s\n", rc, recv);
+	}
+
+	tima_rpc_close(fd);
+	return NULL;
+}
 #endif
+
+int mult_client(int argc, char *argv[])
+{
+	int ret = 0;
+	void* thread_result;
+	pthread_t pth_test3, pth_test2;
+
+	char *client1 = "client1";
+	ret = pthread_create(&pth_test3, NULL, test_client1, (void*)client1);
+	if (ret != 0)
+		printf("create thread \'client1\' failed");
+
+	sleep(1);
+
+	char *client2 = "client2";
+	ret = pthread_create(&pth_test2, NULL, test_client2, (void*)client2);
+	if (ret != 0)
+		printf("create thread \'client2\' failed");
+
+	pthread_join(pth_test3, &thread_result);
+	pthread_join(pth_test2, &thread_result);
+
+	return 0;
+}
 
 int main(int argc, char **argv)
 {
@@ -143,7 +190,7 @@ int main(int argc, char **argv)
 	if (strcmp(argv[1], "-s") == 0) {
 		rc = server();
 	} else {
-		rc = client();
+		rc = mult_client(argc, argv);
 	}
 	exit (rc == 0 ? EXIT_SUCCESS : EXIT_FAILURE);
 }
