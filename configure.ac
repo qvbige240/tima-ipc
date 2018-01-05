@@ -24,6 +24,9 @@ AC_CHECK_LIB([pthread], [main])
 
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h stddef.h stdint.h stdlib.h string.h sys/time.h termios.h unistd.h])
+
+includedir="$includedir/timapi"
+echo "====== includedir: $includedir"
 project_dir=$PWD
 echo "project dir: $project_dir"
 AC_SUBST(project_dir)
@@ -84,8 +87,8 @@ if test x$enable_x86 = xyes; then
 	DYNAMIC_LIBS="-ldl -lpthread -lrt -lanl"
 	#DYNAMIC_LIBS="-lnanomsg -lpthread"
 	AC_SUBST(DYNAMIC_LIBS)
-	CFLAGS='-Wall $(GOLBAL_CFLAGS) -I$(project_dir)/../premake/x86/install/include/ -I$(project_dir)/ti'
-	EXTRA_LDFLAGS='$(GOLBAL_LDFLAGS) -L$(project_dir)/ti/.libs'
+	CFLAGS='-Wall $(GOLBAL_CFLAGS) -I$(project_dir)/../premake/x86/install/include/ -I$(project_dir)/tima-api'
+	EXTRA_LDFLAGS='$(GOLBAL_LDFLAGS) -L$(project_dir)/tima-api/.libs'
 	#EXTRA_LDFLAGS='$(project_dir)/../premake/x86/install/lib/'
 	AC_SUBST(EXTRA_LDFLAGS)
 else
@@ -127,9 +130,9 @@ else
 	#DYNAMIC_LIBS="-lnvtuctrl -lpthread -lrt -lm"
 	AC_SUBST(DYNAMIC_LIBS)
 	#EXTRA_LDFLAGS='-L$(project_dir)/mips/lib'
-	EXTRA_LDFLAGS='$(GOLBAL_LDFLAGS) -L$(project_dir)/ti/.libs'
+	EXTRA_LDFLAGS='$(GOLBAL_LDFLAGS) -L$(project_dir)/tima-api/.libs'
 	AC_SUBST(EXTRA_LDFLAGS)
-	CFLAGS='-Wall $(GOLBAL_CFLAGS) -I$(project_dir)/../premake/nt966x/install/include -I$(project_dir)/ti/inc -I$(project_dir)/ti'
+	CFLAGS='-Wall $(GOLBAL_CFLAGS) -I$(project_dir)/../premake/nt966x/install/include -I$(project_dir)/tima-api/inc -I$(project_dir)/tima-api'
 fi
 echo "platform: $PLATFORMS"
 echo "platform11111: ${PLATFORMS}"
@@ -151,6 +154,6 @@ AC_CHECK_FUNCS([bzero memset select strstr])
 
 AC_CONFIG_FILES([Makefile
                  sample/Makefile
-                 ti/Makefile])
+                 tima-api/Makefile])
 
 AC_OUTPUT

@@ -1,3 +1,3 @@
 AUTOMAKE_OPTIONS=foreign
 #SUBDIRS=main
-SUBDIRS=ti sample
+SUBDIRS=tima-api sample
