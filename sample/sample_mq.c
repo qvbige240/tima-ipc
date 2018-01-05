@@ -26,7 +26,7 @@ void *test_event_post(void *name)
 	//int key = tima_mqueue_open(EVENT_MQ_PATH, 'a');
 	int key = tima_mqueue_open();
 	
-	printf("str len = %d", strlen(str));
+	printf("str len = %d", (int)strlen(str));
 	strncpy(buffer, str, BUFFER_SIZE);
 
 	while (1) {

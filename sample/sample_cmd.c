@@ -21,6 +21,7 @@ int server(void)
 		printf("error\n");
 		return -1;
 	}
+	printf("server fd = %d\n", fd);
 
 	char *str = "{\"Latitude\":0.000000,\"Longitude\":0.000000,\"Speed\":0.000000,\"Timestamp\":0}";
 	while (1) {
@@ -73,7 +74,33 @@ int client(void)
 }
 #else
 
+#if 1
+int tima_cmd_send(int fd, const void *buf, char *recvbuf, size_t recvlen)
+{
+	int rc = 0;
 
+	if (!recvbuf) {
+		fprintf(stderr, "recv buf is null pointer\n");
+		return -1;
+	}
+
+	rc = tima_rpc_send(fd, buf, strlen(buf), 0);
+	if (rc < 0) {
+		printf("tima_rpc_send error");
+		return -1;
+	}
+	printf("=== send rc = %d\n", rc);
+
+	memset(recvbuf, 0, sizeof(recvbuf));
+	rc = tima_rpc_recv(fd, recvbuf, recvlen, 0);
+	if (rc < 0) {
+		printf("tima_rpc_recv error");
+		return -1;
+	}
+
+	return rc;
+}
+#else
 int tima_cmd_send(int fd, const void *buf, char *recvbuf, size_t recvlen)
 {
 	int rc = 0;
@@ -106,11 +133,13 @@ int tima_cmd_send(int fd, const void *buf, char *recvbuf, size_t recvlen)
 
 	return rc;
 }
+#endif
 
 void *test_client1(void *name)
 {
 	int rc;
 	int fd = tima_rpc_open();
+	printf("[%s] fd = %d\n", (char*)name, fd);
 
 	char recv[256] = {0};
 	char buffer[256] = {0};
@@ -136,6 +165,7 @@ void *test_client2(void *name)
 {
 	int rc;
 	int fd = tima_rpc_open();
+	printf("[%s] fd = %d\n", (char*)name, fd);
 
 	char recv[256] = {0};
 	char buffer[256] = {0};
