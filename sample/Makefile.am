@@ -1,5 +1,7 @@
 AUTOMAKE_OPTIONS=foreign
 bin_PROGRAMS = cmd 
+#cmd_LDADD =\
+#$(project_dir)/tima-api/.libs/libtimapi.a
 LIBS="-ltimapi $(DYNAMIC_LIBS)"
 cmd_LDFLAGS=$(EXTRA_LDFLAGS)
 cmd_SOURCES =\
@@ -25,3 +27,9 @@ LIBS="-ltimapi $(DYNAMIC_LIBS)"
 pubsub_LDFLAGS=$(EXTRA_LDFLAGS)
 pubsub_SOURCES =\
 sample_pubsub.c
+
+bin_PROGRAMS += reply
+LIBS="-ltimapi $(DYNAMIC_LIBS)"
+reply_LDFLAGS=$(EXTRA_LDFLAGS)
+reply_SOURCES =\
+sample_reply.c

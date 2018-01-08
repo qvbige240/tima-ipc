@@ -17,6 +17,7 @@ sample/mqueue
 sample/rpc
 sample/pubsub
 sample/cmd
+sample/reply
 nt966x
 x86
 
