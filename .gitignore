@@ -18,6 +18,7 @@ sample/rpc
 sample/pubsub
 sample/cmd
 sample/reply
+sample/mqsend
 nt966x
 x86
 

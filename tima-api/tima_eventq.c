@@ -9,6 +9,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/msg.h>
+#include <fcntl.h>
 #include <errno.h>
 
 #include "tima_eventq.h"
@@ -23,7 +24,7 @@ typedef struct ipc_msg
 
 static int tima_create_node(char* fname)
 {
-	int ret = -1;
+	//int ret = -1;
 	return_val_if_fail(fname, -1);
 
 	if (access(fname, 0) != 0) {

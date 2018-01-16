@@ -33,3 +33,9 @@ LIBS="-ltimapi $(DYNAMIC_LIBS)"
 reply_LDFLAGS=$(EXTRA_LDFLAGS)
 reply_SOURCES =\
 sample_reply.c
+
+bin_PROGRAMS += mqsend
+LIBS="-ltimapi $(DYNAMIC_LIBS)"
+mqsend_LDFLAGS=$(EXTRA_LDFLAGS)
+mqsend_SOURCES =\
+sample_mqsend.c

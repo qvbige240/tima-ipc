@@ -91,7 +91,7 @@ int tima_cmd_send(int fd, const void *buf, char *recvbuf, size_t recvlen)
 	}
 	printf("=== send rc = %d\n", rc);
 
-	memset(recvbuf, 0, sizeof(recvbuf));
+	memset(recvbuf, 0, recvlen);
 	rc = tima_rpc_recv(fd, recvbuf, recvlen, 0);
 	if (rc < 0) {
 		printf("tima_rpc_recv error");
@@ -153,6 +153,7 @@ void *test_client1(void *name)
 		//strcpy(buffer, "hello world");
 		strcpy(buffer, str);
 
+		//memset(recv, 0, sizeof(recv));
 		rc = tima_cmd_send(fd, buffer, recv, sizeof(recv));
 		printf("rc = %d, recv: %s\n", rc, recv);
 	}

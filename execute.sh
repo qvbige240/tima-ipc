@@ -23,6 +23,9 @@ if [ "$platform" == mips ]; then
 else
     ./configure --host=x86_64-unknown-linux-gnu enable_x86=yes enable_sqlite3=no \
         enable_zlog=no --prefix=$WORKDIR/install_x86/install
+
+    #    enable_zlog=no --prefix=$WORKDIR/install_x86/install
+    #    enable_zlog=no --prefix=$WORKDIR/../premake/x86/install
 fi
 make
 make install
